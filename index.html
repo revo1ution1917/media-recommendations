@@ -96,18 +96,6 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f0ede8;color:#1a
 
 .gc-drama{background:linear-gradient(170deg,#c9446a,#96153d)}.gc-comedy{background:linear-gradient(170deg,#e8a020,#b86c08)}.gc-thriller{background:linear-gradient(170deg,#1c5aaa,#0e2f6e)}.gc-horror{background:linear-gradient(170deg,#2a2a2a,#111)}.gc-documentary{background:linear-gradient(170deg,#1a8a6a,#0b5040)}.gc-sci-fi{background:linear-gradient(170deg,#5c32aa,#2e1070)}.gc-romance{background:linear-gradient(170deg,#d04878,#9a1248)}.gc-crime{background:linear-gradient(170deg,#3a3a3a,#181818)}.gc-action{background:linear-gradient(170deg,#c03020,#7a1008)}.gc-fantasy{background:linear-gradient(170deg,#6040c0,#2e1480)}.gc-political{background:linear-gradient(170deg,#b84020,#7a1c08)}.gc-biography{background:linear-gradient(170deg,#3a8820,#1e5010)}.gc-literary{background:linear-gradient(170deg,#8050c8,#4a2090)}.gc-reality{background:linear-gradient(170deg,#d060a8,#901860)}.gc-sitcom{background:linear-gradient(170deg,#e09030,#a86010)}.gc-musical{background:linear-gradient(170deg,#d040a8,#880060)}.gc-default{background:linear-gradient(170deg,#888,#444)}
 
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem}
-.modal{background:#fff;border-radius:14px;padding:22px;width:min(460px,100%);max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.2)}
-.modal h2{font-size:16px;font-weight:700;margin-bottom:16px;letter-spacing:-0.02em}
-.ff{margin-bottom:12px}
-.ff label{display:block;font-size:12px;color:#999;margin-bottom:4px;font-weight:500}
-.ff input,.ff select,.ff textarea{width:100%;padding:8px 10px;border:1px solid rgba(0,0,0,0.12);border-radius:8px;background:#f8f6f2;color:#1a1714;font-family:inherit;font-size:13px}
-.ff input:focus,.ff select:focus,.ff textarea:focus{outline:none;border-color:rgba(0,0,0,0.28);background:#fff}
-.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.mactions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
-.merr{font-size:12px;color:#b03030;min-height:16px;margin-top:4px}
-.toast{position:fixed;bottom:20px;right:20px;background:#1a1714;color:#fff;border-radius:10px;padding:10px 16px;display:flex;align-items:center;gap:8px;font-size:12px;z-index:300;box-shadow:0 4px 20px rgba(0,0,0,0.25)}
-.tspin{width:12px;height:12px;border:1.5px solid rgba(255,255,255,0.25);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;flex-shrink:0}
 @media(max-width:500px){.frow{grid-template-columns:1fr}.card-aside{width:76px}.aside-emoji{font-size:17px}}
 </style>
 </head>
@@ -117,7 +105,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f0ede8;color:#1a
   <div class="logo">Amelya's <em>list</em></div>
   <div class="hdr-right">
     <button class="btn btn-ghost" onclick="toggleMood()">&#9786; Mood</button>
-    <button class="btn btn-primary" onclick="openAdd()">+ Add</button>
+    <div style="font-size:12px;color:#999;text-align:right;line-height:1.5">To add something,<br>message Claude or Cowork</div>
   </div>
 </div>
 
@@ -159,52 +147,9 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f0ede8;color:#1a
   <div id="list" class="items"></div>
 </div>
 
-<div id="modal-bg" class="modal-bg" style="display:none" onclick="bgClick(event)">
-  <div class="modal">
-    <h2>Add to your list</h2>
-    <div class="ff"><label>Title *</label><input type="text" id="f-title" placeholder="e.g. Succession, The Road, Patti Smith — Horses"></div>
-    <div class="frow">
-      <div class="ff"><label>Type</label><select id="f-itype"><option>Film</option><option>TV</option><option>Book</option><option>Album</option><option>Theatre</option></select></div>
-      <div class="ff"><label>Recommended by</label><input type="text" id="f-recby" placeholder="e.g. Micha, Guardian"></div>
-    </div>
-    <div class="ff"><label>Notes (optional)</label><textarea id="f-notes" rows="2" placeholder="Anything else..."></textarea></div>
-    <div class="merr" id="merr"></div>
-    <div class="mactions">
-      <button class="btn btn-ghost" onclick="closeAdd()">Cancel</button>
-      <button class="btn btn-primary" onclick="saveItem()">&#10024; Add &amp; score</button>
-    </div>
-  </div>
-</div>
 
-<div id="toast" class="toast" style="display:none"><div class="tspin"></div><span id="toast-msg"></span></div>
 
 <script>
-const PROFILE=`You are a recommendation scoring engine for Amelya, who lives in London, UK.
-
-TASTE: Films loved: Trainspotting, 2001 A Space Odyssey, A Clockwork Orange, Full Metal Jacket, The Shining, Barry Lyndon, Arrival, Devil Wears Prada, Cabaret. Hated: Interstellar (pretentious), Anora (exploitative). TV loved: Law & Order SVU, Oz, The Americans, It's a Sin, Hacks, Love is Blind, The Apprentice, BEEF, Motherland, Derry Girls, Brooklyn Nine-Nine, Community, Seinfeld, The Crown, Queer Eye, Louis Theroux, Heartstopper. Trash reality: Love Is Blind, Selling Sunset, Emily in Paris. Books: Picture of Dorian Gray, Homage to Catalonia, Good Omens. Shelves: left politics, feminist theory, literary fiction (Kerouac/Bukowski/Bret Easton Ellis/Kundera/Fitzgerald/Flaubert/Camus/Bataille), Joe Sacco Palestine, queer history, Vonnegut, Huxley, Carver, Bob Mortimer. Theatre: loves good musicals (Cabaret/Hamilton/Book of Mormon), hated Les Mis.
-
-SIGNALS: wit+edge+craft, transgression+darkness, political/moral weight, intellectual ambition. Hates pretension. Heavy NOT penalised. Trash = positive guilty-pleasure category.
-
-SCORING 0-10 (1dp): quality+standing 40%, taste fit 40%, discovery value 20%.
-WEIGHT: Light / Medium / Heavy / Trash.
-GENRE: pick ONE from: Drama, Comedy, Thriller, Horror, Documentary, Sci-Fi, Romance, Crime, Action, Fantasy, Political, Biography, Literary, Reality, Sitcom, Musical.
-STREAMING UK: Netflix UK, Amazon Prime UK, Apple TV+. Stremio/Torrentio covers most torrented content. Books/albums/theatre → streaming: null.
-SCORE CAPTION: 4-5 word lowercase vibe summary e.g. "perfect for a dark night".
-WHEN: A single evocative sentence for the perfect moment to consume this — personal to Amelya, specific and atmospheric. Examples: "for after a long workday with a glass of chablis", "for when you need a proper ugly cry on the sofa", "for a hungover Sunday when moving feels impossible", "for a night when Micha's away and you want to feel something". Make it feel like a recommendation from a friend who knows her well.
-
-Return ONLY valid JSON, no markdown fences:
-{
-  "score": 8.3,
-  "scoreCaption": "witty dread, perfectly crafted",
-  "genre": "Comedy",
-  "subgenre": "Horror comedy",
-  "weight": "Medium",
-  "when": "for a Friday night in with something cold and fizzy",
-  "rationale": "2 sentences why this suits Amelya",
-  "details": "runtime/episodes · year · creator",
-  "tags": ["witty","dark","eccentric"],
-  "streaming": {"netflix":false,"prime":true,"apple":true,"stremio":true,"note":"Prime & Apple TV+"}
-}`;
 
 const TYPE_EMOJI={film:'🎬',tv:'📺',book:'📚',album:'🎵',theatre:'🎭'};
 const GENRE_EMOJI={drama:'🎭',comedy:'😄',thriller:'😬',horror:'👻',documentary:'🎥','sci-fi':'🚀',romance:'💕',crime:'🔪',action:'💥',fantasy:'🧙',political:'✊',biography:'📖',literary:'📝',reality:'💅',sitcom:'😂',musical:'🎶'};
@@ -215,16 +160,6 @@ const GENRE_PILL={drama:'pg-drama',comedy:'pg-comedy',thriller:'pg-thriller',hor
 const WEIGHT_PILL={light:'pw-light',medium:'pw-medium',heavy:'pw-heavy',trash:'pw-trash'};
 
 const SEED=[
-{
-  id:"succession-1",title:"Succession",type:"TV",recBy:"Claude",notes:"",addedAt:1749340800000,done:false,
-  score:9.6,scoreCaption:"relentless, brilliant, devastating",
-  genre:"Drama",subgenre:"Political satire",weight:"Heavy",
-  when:"for a weekend when you want to disappear into something genuinely great — be warned: you will not stop",
-  rationale:"Jesse Armstrong's HBO masterpiece follows the Roy family — a media mogul dynasty tearing itself apart in real time. It's Shakespeare in Murdoch clothing: every character is monstrous and completely human, the dialogue is the sharpest on television, and it somehow gets more devastating each season. The Regime is essentially its direct descendant; if Amelya loved that, Succession is the source.",
-  details:"4 seasons · 39 episodes · 55–90 min · 2018–2023 · Jesse Armstrong",
-  tags:["political","witty","devastating","dark"],
-  streaming:{netflix:false,prime:false,apple:false,stremio:true,note:"Sky/NOW or Stremio"}
-},
 {
   id:"hokum-1",title:"Hokum",type:"Film",recBy:"Eshchar",notes:"",addedAt:1748000006000,done:false,
   score:7.8,scoreCaption:"atmospheric dread, beautifully made",
@@ -289,10 +224,10 @@ const SEED=[
 let items=[],tab='todo';
 
 async function load(){
-  try{const r=await window.storage.get('al-v8');if(r&&r.value){items=JSON.parse(r.value);}else{items=[...SEED];await save();}}catch(e){items=[...SEED];}
+  try{const r=await window.storage.get('al-v7');if(r&&r.value){items=JSON.parse(r.value);}else{items=[...SEED];await save();}}catch(e){items=[...SEED];}
   render();syncFilters();
 }
-async function save(){try{await window.storage.set('al-v8',JSON.stringify(items));}catch(e){}}
+async function save(){try{await window.storage.set('al-v7',JSON.stringify(items));}catch(e){}}
 
 function gc(g){return GENRE_CLASS[(g||'').toLowerCase()]||'gc-default';}
 function gp(g){return GENRE_PILL[(g||'').toLowerCase()]||'pg-default';}
@@ -397,38 +332,6 @@ function syncFilters(){
   rsel.innerHTML=`<option value="">Any source</option>${rs.map(r=>`<option${r===rv?' selected':''}>${x(r)}</option>`).join('')}`;
 }
 
-function switchTab(t,el){tab=t;document.querySelectorAll('.tab').forEach(e=>e.classList.remove('active'));el.classList.add('active');render();}
-function openAdd(){document.getElementById('modal-bg').style.display='flex';setTimeout(()=>document.getElementById('f-title').focus(),50);}
-function closeAdd(){document.getElementById('modal-bg').style.display='none';document.getElementById('merr').textContent='';}
-function bgClick(e){if(e.target===document.getElementById('modal-bg'))closeAdd();}
-
-async function saveItem(){
-  const title=document.getElementById('f-title').value.trim();
-  if(!title){document.getElementById('merr').textContent='Please enter a title.';return;}
-  const type=document.getElementById('f-itype').value,recBy=document.getElementById('f-recby').value.trim(),notes=document.getElementById('f-notes').value.trim();
-  const item={id:Date.now().toString(),title,type,recBy,notes,addedAt:Date.now(),done:false,score:null,scoreCaption:null,when:null,pending:'Looking up and scoring...'};
-  items.unshift(item);await save();
-  closeAdd();document.getElementById('f-title').value='';document.getElementById('f-recby').value='';document.getElementById('f-notes').value='';
-  render();showToast(`Scoring "${title}"...`);
-  await scoreItem(item);
-}
-
-async function scoreItem(item){
-  try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:PROFILE,messages:[{role:'user',content:`Score for Amelya and check UK streaming:\nTitle: ${item.title}\nType: ${item.type}${item.notes?'\nNotes: '+item.notes:''}`}],tools:[{type:'web_search_20250305',name:'web_search'}]})});
-    const data=await res.json();
-    let text=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('');
-    const clean=text.replace(/```json|```/g,'').trim();
-    const s=clean.indexOf('{'),e=clean.lastIndexOf('}');
-    if(s>-1&&e>-1){
-      const p=JSON.parse(clean.slice(s,e+1));
-      const idx=items.findIndex(i=>i.id===item.id);
-      if(idx>-1){items[idx]={...items[idx],score:p.score,scoreCaption:p.scoreCaption||null,genre:p.genre,subgenre:p.subgenre,weight:p.weight,when:p.when||null,rationale:p.rationale,details:p.details,tags:p.tags,streaming:p.streaming||null,pending:null};await save();syncFilters();render();}
-    }
-  }catch(e){const idx=items.findIndex(i=>i.id===item.id);if(idx>-1){items[idx].pending='Scoring failed — try removing and re-adding';await save();render();}}
-  hideToast();
-}
-
 async function toggleDone(id){const idx=items.findIndex(i=>i.id===id);if(idx>-1){items[idx].done=!items[idx].done;await save();render();}}
 async function del(id){if(!confirm('Remove this item?'))return;items=items.filter(i=>i.id!==id);await save();syncFilters();render();}
 
@@ -438,32 +341,54 @@ function toggleMood(){
   if(!on)setTimeout(()=>document.getElementById('mood-input').focus(),50);
 }
 
-async function getMoodRecs(){
-  const mood=document.getElementById('mood-input').value.trim();
+function getMoodRecs(){
+  const mood=document.getElementById('mood-input').value.trim().toLowerCase();
   if(!mood)return;
   const todo=items.filter(i=>!i.done&&i.score!=null);
   if(!todo.length){document.getElementById('mood-results').innerHTML='<p style="font-size:12px;color:#bbb">Add some items first!</p>';return;}
-  document.getElementById('mood-results').innerHTML='<p style="font-size:12px;color:#bbb;font-style:italic">Finding your picks...</p>';
-  showToast('Picking for your mood...');
-  try{
-    const ls=todo.map(i=>`- ${i.title} (${i.type}, score:${i.score}, weight:${i.weight||'?'}, genre:${i.genre||'?'}, when:${i.when||'?'}, platforms:${i.streaming?Object.entries(i.streaming).filter(([k,v])=>v===true).map(([k])=>k).join('/')||'none':'?'})`).join('\n');
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,system:PROFILE+'\n\nReturn JSON array of top 3 picks: [{"title":"...","why":"1 sentence","where":"platform"}]. JSON array only.',messages:[{role:'user',content:`Mood: "${mood}"\n\n${ls}\n\nTop 3 picks. JSON array only.`}]})});
-    const data=await res.json();
-    let text=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('');
-    const clean=text.replace(/```json|```/g,'').trim();
-    const s=clean.indexOf('['),e=clean.lastIndexOf(']');
-    if(s>-1&&e>-1){
-      const picks=JSON.parse(clean.slice(s,e+1));
-      document.getElementById('mood-results').innerHTML=picks.map((p,i)=>`<div class="mood-pick"><div class="mood-pick-num">Pick ${i+1}</div><div class="mood-pick-title">${x(p.title)}</div><div class="mood-pick-why">${x(p.why)}</div>${p.where?`<div class="mood-pick-where">on ${x(p.where)}</div>`:''}</div>`).join('');
-    }
-  }catch(err){document.getElementById('mood-results').innerHTML='<p style="font-size:12px;color:#bbb">Something went wrong, try again.</p>';}
-  hideToast();
+
+  // keyword matching against weight, genre, tags, when, rationale
+  const WEIGHT_WORDS={light:['light','easy','quick','breezy','relax','chill','simple','mindless','brain'],medium:['medium','some','moderate'],heavy:['heavy','intense','demanding','think','cry','emotional','deep','serious','political','dark'],trash:['trash','guilty','pleasure','trashy','reality','dumb','fun','silly','switch off','unwind']};
+  const GENRE_WORDS={comedy:['comedy','laugh','funny','fun','light','smile'],drama:['drama','serious','cry'],thriller:['thriller','tense','suspense','edge'],horror:['horror','scary','scare','frightened','spooky'],documentary:['documentary','learn','real','true'],political:['political','politics','world'],romance:['romance','romantic','love'],crime:['crime','murder','detective'],sitcom:['sitcom','sitcoms','comedy','funny']};
+
+  function score(item,q){
+    let s=item.score*2; // base — higher scored items float up
+    const fields=[item.weight,item.genre,item.subgenre,(item.tags||[]).join(' '),item.when,item.rationale,item.scoreCaption].join(' ').toLowerCase();
+    // weight keyword match
+    for(const[w,words]of Object.entries(WEIGHT_WORDS)){if(words.some(kw=>q.includes(kw))&&item.weight&&item.weight.toLowerCase()===w)s+=8;}
+    // genre keyword match
+    for(const[g,words]of Object.entries(GENRE_WORDS)){if(words.some(kw=>q.includes(kw))&&item.genre&&item.genre.toLowerCase()===g)s+=6;}
+    // direct word overlap with fields
+    const qwords=q.split(/\s+/).filter(w=>w.length>3);
+    qwords.forEach(w=>{if(fields.includes(w))s+=3;});
+    // streaming preference
+    if(q.includes('netflix')&&item.streaming&&item.streaming.netflix)s+=4;
+    if(q.includes('prime')&&item.streaming&&item.streaming.prime)s+=4;
+    if(q.includes('stremio')&&item.streaming&&item.streaming.stremio)s+=2;
+    return s;
+  }
+
+  const scored=todo.map(i=>({item:i,s:score(i,mood)})).sort((a,b)=>b.s-a.s).slice(0,3);
+
+  function platform(item){
+    if(!item.streaming)return null;
+    if(item.streaming.netflix)return'Netflix';
+    if(item.streaming.prime)return'Prime';
+    if(item.streaming.apple)return'Apple TV+';
+    if(item.streaming.stremio)return'Stremio';
+    return null;
+  }
+
+  document.getElementById('mood-results').innerHTML=scored.map(({item},i)=>{
+    const where=platform(item);
+    return`<div class="mood-pick"><div class="mood-pick-num">Pick ${i+1}</div><div class="mood-pick-title">${x(item.title)}</div><div class="mood-pick-why">${x(item.when||item.scoreCaption||'')}</div>${where?`<div class="mood-pick-where">on ${x(where)}</div>`:''}</div>`;
+  }).join('');
 }
 
-function showToast(msg){document.getElementById('toast-msg').textContent=msg;document.getElementById('toast').style.display='flex';}
-function hideToast(){document.getElementById('toast').style.display='none';}
+
+
 function x(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAdd();});
+
 load();
 </script>
 </body>
