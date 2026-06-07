@@ -262,10 +262,10 @@ const SEED=[
 let items=[],tab='todo';
 
 async function load(){
-  try{const r=await window.storage.get('al-v12');if(r&&r.value){items=JSON.parse(r.value);}else{items=[...SEED];await save();}}catch(e){items=[...SEED];}
+  try{const r=await window.storage.get('al-v13');if(r&&r.value){items=JSON.parse(r.value);}else{items=[...SEED];await save();}}catch(e){items=[...SEED];}
   render();syncFilters();
 }
-async function save(){try{await window.storage.set('al-v12',JSON.stringify(items));}catch(e){}}
+async function save(){try{await window.storage.set('al-v13',JSON.stringify(items));}catch(e){}}
 
 function gc(g){return GENRE_CLASS[(g||'').toLowerCase()]||'gc-default';}
 function gp(g){return GENRE_PILL[(g||'').toLowerCase()]||'pg-default';}
@@ -371,6 +371,8 @@ function syncFilters(){
   const rsel=document.getElementById('f-rec'),rv=rsel.value;
   rsel.innerHTML=`<option value="">Any source</option>${rs.map(r=>`<option${r===rv?' selected':''}>${x(r)}</option>`).join('')}`;
 }
+
+function switchTab(t,el){tab=t;document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));el.classList.add('active');render();}
 
 async function toggleDone(id){const idx=items.findIndex(i=>i.id===id);if(idx>-1){items[idx].done=!items[idx].done;await save();render();}}
 async function del(id){if(!confirm('Remove this item?'))return;items=items.filter(i=>i.id!==id);await save();syncFilters();render();}
