@@ -162,6 +162,17 @@ const WEIGHT_PILL={light:'pw-light',medium:'pw-medium',heavy:'pw-heavy',trash:'p
 
 const SEED=[
 {
+  id:"ig-1",title:"The Imitation Game",type:"Film",recBy:"Micha",notes:"",addedAt:1749341000000,done:false,
+  score:8.2,scoreCaption:"gripping, quietly devastating",
+  genre:"Biography",subgenre:"Historical drama",weight:"Medium",
+  when:"for a Sunday when you want to feel something real — intelligent and quietly devastating",
+  rationale:"The story of Alan Turing breaking the Enigma code in WWII — Benedict Cumberbatch is remarkable, and the film earns its emotional gut-punch by grounding everything in real history. It's polished mainstream cinema done with real craft, and Turing's story is one that should be known.",
+  details:"114 min · 2014 · Morten Tyldum",
+  similarTo:"Succession and I May Destroy You",
+  tags:["historical","WWII","true story"],
+  streaming:{netflix:false,prime:true,apple:false,stremio:true,note:"Prime or Stremio"}
+},
+{
   id:"hokum-1",title:"Hokum",type:"Film",recBy:"Eshchar",notes:"",addedAt:1748000006000,done:false,
   score:7.8,scoreCaption:"atmospheric dread, beautifully made",
   genre:"Horror",subgenre:"Folk horror",weight:"Heavy",
@@ -231,10 +242,10 @@ const SEED=[
 let items=[],tab='todo';
 
 async function load(){
-  try{const r=await window.storage.get('al-v9');if(r&&r.value){items=JSON.parse(r.value);}else{items=[...SEED];await save();}}catch(e){items=[...SEED];}
+  try{const r=await window.storage.get('al-v10');if(r&&r.value){items=JSON.parse(r.value);}else{items=[...SEED];await save();}}catch(e){items=[...SEED];}
   render();syncFilters();
 }
-async function save(){try{await window.storage.set('al-v9',JSON.stringify(items));}catch(e){}}
+async function save(){try{await window.storage.set('al-v10',JSON.stringify(items));}catch(e){}}
 
 function gc(g){return GENRE_CLASS[(g||'').toLowerCase()]||'gc-default';}
 function gp(g){return GENRE_PILL[(g||'').toLowerCase()]||'pg-default';}
