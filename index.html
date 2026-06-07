@@ -191,7 +191,7 @@ const SEED=[
   score:8.7,scoreCaption:"furious, heartbreaking, more relevant than ever",
   genre:"Political",subgenre:"Near-future drama",weight:"Heavy",
   when:"for when you want to feel every political feeling you've ever had and then cry about it — ideally with Micha",
-  pair:"a bottle of Malbec and Micha on the sofa — you will have a great deal to say and you will want someone to say it to",
+  pair:"a bottle of Malbec and someone to call immediately after — you will have a great deal to say",
   rationale:"Russell T Davies — same creator as It's a Sin — traces one Manchester family from 2019 to 2034 as Britain's political fabric tears apart, anchored by a charismatic populist politician played by Emma Thompson at her most terrifying. It has the same political urgency and emotional devastation as It's a Sin but wider in scope and angrier in ambition, and in 2026 every near-future prediction it makes lands like a gut punch.",
   details:"6 episodes · 58–62 min · 2019 · Russell T Davies",
   similarTo:"It's a Sin and The Crown",
@@ -298,10 +298,10 @@ const SEED=[
 let items=[],tab='todo';
 
 async function load(){
-  try{const r=await window.storage.get('al-v18');if(r&&r.value){items=JSON.parse(r.value);}else{items=[...SEED];await save();}}catch(e){items=[...SEED];}
+  try{const r=await window.storage.get('al-v19');if(r&&r.value){items=JSON.parse(r.value);}else{items=[...SEED];await save();}}catch(e){items=[...SEED];}
   render();syncFilters();
 }
-async function save(){try{await window.storage.set('al-v18',JSON.stringify(items));}catch(e){}}
+async function save(){try{await window.storage.set('al-v19',JSON.stringify(items));}catch(e){}}
 
 function gc(g){return GENRE_CLASS[(g||'').toLowerCase()]||'gc-default';}
 function gp(g){return GENRE_PILL[(g||'').toLowerCase()]||'pg-default';}
