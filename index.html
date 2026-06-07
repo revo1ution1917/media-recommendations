@@ -87,6 +87,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f0ede8;color:#1a
 .sp{display:inline-flex;align-items:center;gap:3px;font-size:10px;padding:2px 8px;border-radius:20px;font-weight:600;white-space:nowrap}
 .sp-netflix{background:#ffdede;color:#8a1a1a}.sp-prime{background:#dceeff;color:#0a2d6e}.sp-apple{background:#ebebeb;color:#333}.sp-stremio{background:#e8d4f8;color:#3a1478}.sp-none{background:#f0ede8;color:#bbb}
 .recby{font-size:11px;color:#ccc;margin-top:4px}
+.similar{font-size:11px;color:#bbb;margin-top:5px;font-style:italic}
 .card-actions{display:flex;gap:5px;flex-shrink:0;align-items:flex-start;padding-top:1px}
 .ibt{width:30px;height:30px;border:1px solid rgba(0,0,0,0.09);border-radius:8px;background:transparent;color:#ccc;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.12s;font-size:15px;flex-shrink:0}
 .ibt:hover{background:#f5f2ee;color:#555}
@@ -164,6 +165,7 @@ const SEED=[
   id:"hokum-1",title:"Hokum",type:"Film",recBy:"Eshchar",notes:"",addedAt:1748000006000,done:false,
   score:7.8,scoreCaption:"atmospheric dread, beautifully made",
   genre:"Horror",subgenre:"Folk horror",weight:"Heavy",
+  similarTo:"The Shining and Oddity",
   when:"for a dark evening alone when you want to be properly unsettled — not before bed",
   rationale:"Damian McCarthy's Irish folk horror is all atmosphere and craft — a haunted inn, an unreliable novelist, and creeping dread that builds without gore. The Shining is the obvious reference point and Amelya already loves that; this is quieter and more folkloric, with Adam Scott doing something genuinely surprising.",
   details:"107 min · 2026 · Damian McCarthy",
@@ -174,6 +176,7 @@ const SEED=[
   id:"gc-1",title:"Game Changer",type:"TV",recBy:"Rotem",notes:"",addedAt:1748000005000,done:false,
   score:7.0,scoreCaption:"chaotic fun, zero brain required",
   genre:"Comedy",subgenre:"Game show",weight:"Trash",
+  similarTo:"Taskmaster and Would I Lie to You",
   when:"for when you want to laugh without thinking — perfect weeknight snack-eating viewing",
   rationale:"Genuinely clever improv game show where comedians play a new game every episode without knowing the rules — the chaos is the point. It is very American-comedy in energy so not Amelya's core habitat, but the absurdity and wit are real and it is excellent low-stakes viewing.",
   details:"8 seasons · 73 episodes · 12–64 min · 2019– · Sam Reich",
@@ -184,6 +187,7 @@ const SEED=[
   id:"rec-3",title:"The Regime",type:"TV",recBy:"Amelya's List",notes:"",addedAt:1748000003000,done:false,
   score:8.6,scoreCaption:"sharp, unhinged, unmissable",
   genre:"Political",subgenre:"Political satire",weight:"Medium",
+  similarTo:"Succession and The Death of Stalin",
   when:"for when you want to feel smarter than every world leader while drinking something dry",
   rationale:"From the Succession producers, Kate Winslet plays a delusional European autocrat unravelling in real time — it's the political wit and darkness Amelya loves done at full tilt, with Hugh Grant being genuinely unsettling. Zero pretension, all craft.",
   details:"6 episodes · 48–51 min · 2024 · Will Tracy",
@@ -194,6 +198,7 @@ const SEED=[
   id:"rec-2",title:"I May Destroy You",type:"TV",recBy:"Amelya's List",notes:"",addedAt:1748000002000,done:false,
   score:9.1,scoreCaption:"one of the best things made",
   genre:"Drama",subgenre:"Psychological comedy-drama",weight:"Heavy",
+  similarTo:"It's a Sin and Fleabag",
   when:"for a week when you have the emotional bandwidth — you will think about it for months",
   rationale:"Michaela Coel wrote, directed and starred in this unflinching, formally dazzling exploration of consent, identity and trauma in London — it has the political moral weight of Homage to Catalonia but in HBO form. Genuinely one of the best pieces of television ever made, and it will devastate you in the best possible way.",
   details:"12 episodes · 28–35 min · 2020 · Michaela Coel",
@@ -202,6 +207,7 @@ const SEED=[
 },
 {
   id:"rec-1",title:"Fleabag",type:"TV",recBy:"Amelya's List",notes:"",addedAt:1748000001000,done:true,
+  similarTo:"The Picture of Dorian Gray and Motherland",
   score:9.4,scoreCaption:"perfect television, full stop",
   genre:"Comedy",subgenre:"Dark comedy-drama",weight:"Medium",
   when:"for a grey Sunday afternoon when you want to laugh and then suddenly cry on your sofa",
@@ -212,6 +218,7 @@ const SEED=[
 },
 {
   id:"wb-1",title:"Widow's Bay",type:"TV",recBy:"Eshchar",notes:"",addedAt:1748000000000,done:false,
+  similarTo:"BEEF and Motherland",
   score:8.2,scoreCaption:"witty dread, perfectly crafted",
   genre:"Comedy",subgenre:"Horror comedy",weight:"Medium",
   when:"for a Friday night in with something cold and fizzy",
@@ -293,6 +300,7 @@ function cardHtml(it){
         ${it.details?`<div class="meta">${x(it.details)}</div>`:''}
         ${it.rationale?`<div class="rationale">${x(it.rationale)}</div>`:it.pending?`<div class="pending">${x(it.pending)}</div>`:''}
         ${sbadges(it.streaming)}
+        ${it.similarTo?`<div class="similar">&#x2767; if you liked ${x(it.similarTo)}</div>`:''}
         ${it.recBy?`<div class="recby">&#x2937; ${x(it.recBy)}</div>`:''}
       </div>
       <div class="card-actions">
