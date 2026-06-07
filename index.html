@@ -162,6 +162,17 @@ const WEIGHT_PILL={light:'pw-light',medium:'pw-medium',heavy:'pw-heavy',trash:'p
 
 const SEED=[
 {
+  id:"attu-1",title:"Across the Universe",type:"Film",recBy:"Shir",notes:"",addedAt:1749342000000,done:false,
+  score:7.6,scoreCaption:"visually unhinged, absolutely gorgeous",
+  genre:"Musical",subgenre:"Psychedelic musical",weight:"Trash",
+  when:"for a Friday night when you've had a couple of edibles and want something that will make your eyes very happy — this is the one",
+  rationale:"Julie Taymor's Beatles jukebox musical is completely, gloriously deranged — 33 Beatles songs woven into a love story set against the Vietnam era, with sequences so psychedelically gorgeous they genuinely require an altered state to be fully appreciated. Cannabis is the correct pairing: specifically an edible, taken 45 minutes before pressing play, so it kicks in around the Strawberry Fields sequence and you simply dissolve. Sober it's a charming mess. High it's a religious experience.",
+  details:"133 min · 2007 · Julie Taymor",
+  similarTo:"Game Changer and Fleabag",
+  tags:["Beatles","psychedelic","1960s"],
+  streaming:{netflix:false,prime:false,apple:false,stremio:true,note:"Stremio or rent digitally"}
+},
+{
   id:"ig-1",title:"The Imitation Game",type:"Film",recBy:"Micha",notes:"",addedAt:1749341000000,done:false,
   score:8.2,scoreCaption:"gripping, quietly devastating",
   genre:"Biography",subgenre:"Historical drama",weight:"Medium",
@@ -242,10 +253,10 @@ const SEED=[
 let items=[],tab='todo';
 
 async function load(){
-  try{const r=await window.storage.get('al-v10');if(r&&r.value){items=JSON.parse(r.value);}else{items=[...SEED];await save();}}catch(e){items=[...SEED];}
+  try{const r=await window.storage.get('al-v11');if(r&&r.value){items=JSON.parse(r.value);}else{items=[...SEED];await save();}}catch(e){items=[...SEED];}
   render();syncFilters();
 }
-async function save(){try{await window.storage.set('al-v10',JSON.stringify(items));}catch(e){}}
+async function save(){try{await window.storage.set('al-v11',JSON.stringify(items));}catch(e){}}
 
 function gc(g){return GENRE_CLASS[(g||'').toLowerCase()]||'gc-default';}
 function gp(g){return GENRE_PILL[(g||'').toLowerCase()]||'pg-default';}
