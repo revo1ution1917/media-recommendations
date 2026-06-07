@@ -163,6 +163,42 @@ const WEIGHT_PILL={light:'pw-light',medium:'pw-medium',heavy:'pw-heavy',trash:'p
 
 const SEED=[
 {
+  id:"the-bear-1",title:"The Bear",type:"TV",recBy:"Amelya's List",notes:"",addedAt:1780865820000,done:false,
+  score:8.4,scoreCaption:"tense, devastating, impossible to stop",
+  genre:"Drama",subgenre:"Kitchen drama",weight:"Heavy",
+  when:"for a weekend when you have nothing else on — you will watch all of it in one sitting and feel wrung out in the best possible way",
+  pair:"a strong espresso and something to grip — your hands will need somewhere to go",
+  rationale:"Formally inventive kitchen drama following a Michelin-starred chef who returns to run his family's Chicago sandwich shop after his brother's death — one episode is a near-real-time single take, and the whole thing is directed with a precision and intensity that earns every inch of its grief. It has the same sharp ensemble energy as Hacks but with much more sweat and existential stakes, and it is one of the best-directed TV dramas of recent years.",
+  details:"4 seasons · 38 episodes · 20–61 min · 2022– · Christopher Storer",
+  similarTo:"Hacks and BEEF",
+  tags:["tense","craft","grief"],
+  streaming:{netflix:false,prime:false,apple:false,stremio:true,note:"Disney+ or Stremio"}
+},
+{
+  id:"baby-reindeer-1",title:"Baby Reindeer",type:"TV",recBy:"Amelya's List",notes:"",addedAt:1780865810000,done:false,
+  score:8.8,scoreCaption:"unflinching, formally daring, essential",
+  genre:"Drama",subgenre:"Psychological drama",weight:"Heavy",
+  when:"for an evening alone when you want something that will genuinely unsettle you and make you think for days after",
+  pair:"a glass of something and a blanket — you will sit very still for most of it",
+  rationale:"Richard Gadd wrote and stars in this semi-autobiographical account of being stalked — but it is far more formally complex than that synopsis suggests: it is also about grooming, complicity, and the stories we tell ourselves about our own victimhood. It sits directly alongside I May Destroy You in its unflinching, formally daring approach to trauma, and it goes down in one sitting — seven episodes, all under 40 minutes — and stays with you for weeks.",
+  details:"7 episodes · 25–40 min · 2024 · Richard Gadd",
+  similarTo:"I May Destroy You and Fleabag",
+  tags:["dark","unflinching","Scottish"],
+  streaming:{netflix:true,prime:false,apple:false,stremio:true,note:"Netflix UK"}
+},
+{
+  id:"years-and-years-1",title:"Years and Years",type:"TV",recBy:"Amelya's List",notes:"",addedAt:1780865800000,done:false,
+  score:8.7,scoreCaption:"furious, heartbreaking, more relevant than ever",
+  genre:"Political",subgenre:"Near-future drama",weight:"Heavy",
+  when:"for when you want to feel every political feeling you've ever had and then cry about it — ideally with Micha",
+  pair:"a bottle of something good and someone to debrief with after — you will have a lot to say",
+  rationale:"Russell T Davies — same creator as It's a Sin — traces one Manchester family from 2019 to 2034 as Britain's political fabric tears apart, anchored by a charismatic populist politician played by Emma Thompson at her most terrifying. It has the same political urgency and emotional devastation as It's a Sin but wider in scope and angrier in ambition, and in 2026 every near-future prediction it makes lands like a gut punch.",
+  details:"6 episodes · 58–62 min · 2019 · Russell T Davies",
+  similarTo:"It's a Sin and The Crown",
+  tags:["political","devastating","British"],
+  streaming:{netflix:true,prime:false,apple:false,stremio:true,note:"Netflix UK"}
+},
+{
   id:"attu-1",title:"Across the Universe",type:"Film",recBy:"Shir",notes:"",addedAt:1749342000000,done:false,
   score:7.6,scoreCaption:"visually unhinged, absolutely gorgeous",
   genre:"Musical",subgenre:"Psychedelic musical",weight:"Trash",
@@ -262,10 +298,10 @@ const SEED=[
 let items=[],tab='todo';
 
 async function load(){
-  try{const r=await window.storage.get('al-v16');if(r&&r.value){items=JSON.parse(r.value);}else{items=[...SEED];await save();}}catch(e){items=[...SEED];}
+  try{const r=await window.storage.get('al-v17');if(r&&r.value){items=JSON.parse(r.value);}else{items=[...SEED];await save();}}catch(e){items=[...SEED];}
   render();syncFilters();
 }
-async function save(){try{await window.storage.set('al-v16',JSON.stringify(items));}catch(e){}}
+async function save(){try{await window.storage.set('al-v17',JSON.stringify(items));}catch(e){}}
 
 function gc(g){return GENRE_CLASS[(g||'').toLowerCase()]||'gc-default';}
 function gp(g){return GENRE_PILL[(g||'').toLowerCase()]||'pg-default';}
