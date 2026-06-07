@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Amelya's List</title>
+<title>Amelya's Media Sommelier</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:system-ui,-apple-system,sans-serif;background:#f0ede8;color:#1a1714;min-height:100vh;-webkit-font-smoothing:antialiased}
@@ -104,7 +104,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f0ede8;color:#1a
 <body>
 <h1 class="sr-only">Amelya's personal list</h1>
 <div class="hdr">
-  <div class="logo">Amelya's <em>list</em></div>
+  <div class="logo">Amelya's <em>media sommelier</em></div>
   <div class="hdr-right">
     <button class="btn btn-ghost" onclick="toggleMood()">&#9786; Mood</button>
     <div style="font-size:12px;color:#999;text-align:right;line-height:1.5">To add something,<br>message Claude or Cowork</div>
@@ -262,10 +262,10 @@ const SEED=[
 let items=[],tab='todo';
 
 async function load(){
-  try{const r=await window.storage.get('al-v15');if(r&&r.value){items=JSON.parse(r.value);}else{items=[...SEED];await save();}}catch(e){items=[...SEED];}
+  try{const r=await window.storage.get('al-v16');if(r&&r.value){items=JSON.parse(r.value);}else{items=[...SEED];await save();}}catch(e){items=[...SEED];}
   render();syncFilters();
 }
-async function save(){try{await window.storage.set('al-v15',JSON.stringify(items));}catch(e){}}
+async function save(){try{await window.storage.set('al-v16',JSON.stringify(items));}catch(e){}}
 
 function gc(g){return GENRE_CLASS[(g||'').toLowerCase()]||'gc-default';}
 function gp(g){return GENRE_PILL[(g||'').toLowerCase()]||'pg-default';}
