@@ -262,10 +262,10 @@ const SEED=[
 let items=[],tab='todo';
 
 async function load(){
-  try{const r=await window.storage.get('al-v13');if(r&&r.value){items=JSON.parse(r.value);}else{items=[...SEED];await save();}}catch(e){items=[...SEED];}
+  try{const r=await window.storage.get('al-v14');if(r&&r.value){items=JSON.parse(r.value);}else{items=[...SEED];await save();}}catch(e){items=[...SEED];}
   render();syncFilters();
 }
-async function save(){try{await window.storage.set('al-v13',JSON.stringify(items));}catch(e){}}
+async function save(){try{await window.storage.set('al-v14',JSON.stringify(items));}catch(e){}}
 
 function gc(g){return GENRE_CLASS[(g||'').toLowerCase()]||'gc-default';}
 function gp(g){return GENRE_PILL[(g||'').toLowerCase()]||'pg-default';}
@@ -323,7 +323,7 @@ function cardHtml(it){
       <div class="card-content">
         <div class="ctitle">${x(it.title)}</div>
         ${it.when?`<div class="when">✦ ${x(it.when)}</div>`:''}
-        ${it.pair?`<div class="pair">&#127860; ${x(it.pair)}</div>`:''}
+        ${it.pair?`<div class="pair">🍷 ${x(it.pair)}</div>`:''}
         <div class="pill-row">
           ${genreLabel?`<span class="pill ${gp(it.genre)}">${x(genreLabel)}</span>`:''}
           ${it.weight?`<span class="pill ${wp(it.weight)}">${x(it.weight)}</span>`:''}
