@@ -289,10 +289,10 @@ const SEED=[
 let items=[],tab='todo';
 
 async function load(){
-  try{const r=await window.storage.get('al-v7');if(r&&r.value){items=JSON.parse(r.value);}else{items=[...SEED];await save();}}catch(e){items=[...SEED];}
+  try{const r=await window.storage.get('al-v8');if(r&&r.value){items=JSON.parse(r.value);}else{items=[...SEED];await save();}}catch(e){items=[...SEED];}
   render();syncFilters();
 }
-async function save(){try{await window.storage.set('al-v7',JSON.stringify(items));}catch(e){}}
+async function save(){try{await window.storage.set('al-v8',JSON.stringify(items));}catch(e){}}
 
 function gc(g){return GENRE_CLASS[(g||'').toLowerCase()]||'gc-default';}
 function gp(g){return GENRE_PILL[(g||'').toLowerCase()]||'pg-default';}
