@@ -74,6 +74,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f0ede8;color:#1a
 .card-content{flex:1;min-width:0}
 .ctitle{font-size:14px;font-weight:600;color:#1a1714;line-height:1.3;margin-bottom:3px}
 .when{font-size:12px;color:#999;font-style:italic;line-height:1.4;margin-bottom:6px}
+.pair{font-size:12px;color:#b07840;font-style:italic;line-height:1.4;margin-bottom:6px}
 .pill-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:5px;align-items:center}
 .pill{display:inline-flex;align-items:center;font-size:10px;padding:2px 8px;border-radius:20px;font-weight:600;white-space:nowrap;letter-spacing:0.02em}
 .pg-drama{background:#fce8ee;color:#8a1a36}.pg-comedy{background:#fef0d4;color:#7a4800}.pg-thriller{background:#deeaf8;color:#0e3470}.pg-horror{background:#e0e0e0;color:#1a1a1a}.pg-documentary{background:#d6f0e8;color:#0a4e38}.pg-sci-fi{background:#e8ddf8;color:#3a1478}.pg-romance{background:#fcdde8;color:#82103c}.pg-crime{background:#dcdcdc;color:#222}.pg-action{background:#fddcd8;color:#7a1a0e}.pg-fantasy{background:#e4d8f8;color:#3a1878}.pg-political{background:#fde0d4;color:#7a2a10}.pg-biography{background:#ddf0d4;color:#1a5410}.pg-literary{background:#ecddf8;color:#4a1878}.pg-reality{background:#fddaee;color:#7a1050}.pg-sitcom{background:#feecd4;color:#7a4200}.pg-musical{background:#fcd8ee;color:#780a58}.pg-default{background:#edeae6;color:#555}
@@ -166,6 +167,7 @@ const SEED=[
   score:7.6,scoreCaption:"visually unhinged, absolutely gorgeous",
   genre:"Musical",subgenre:"Psychedelic musical",weight:"Trash",
   when:"for a Friday night when you've had a couple of edibles and want something that will make your eyes very happy — this is the one",
+  pair:"an edible and something cold and fizzy — give it 45 minutes before pressing play",
   rationale:"Julie Taymor's Beatles jukebox musical is completely, gloriously deranged — 33 Beatles songs woven into a love story set against the Vietnam era, with sequences so psychedelically gorgeous they genuinely require an altered state to be fully appreciated. Cannabis is the correct pairing: specifically an edible, taken 45 minutes before pressing play, so it kicks in around the Strawberry Fields sequence and you simply dissolve. Sober it's a charming mess. High it's a religious experience.",
   details:"133 min · 2007 · Julie Taymor",
   similarTo:"Game Changer and Fleabag",
@@ -177,6 +179,7 @@ const SEED=[
   score:8.2,scoreCaption:"gripping, quietly devastating",
   genre:"Biography",subgenre:"Historical drama",weight:"Medium",
   when:"for a Sunday when you want to feel something real — intelligent and quietly devastating",
+  pair:"a pot of tea and shortbread — the good kind, not the dusty tin kind",
   rationale:"The story of Alan Turing breaking the Enigma code in WWII — Benedict Cumberbatch is remarkable, and the film earns its emotional gut-punch by grounding everything in real history. It's polished mainstream cinema done with real craft, and Turing's story is one that should be known.",
   details:"114 min · 2014 · Morten Tyldum",
   similarTo:"Succession and I May Destroy You",
@@ -189,6 +192,7 @@ const SEED=[
   genre:"Horror",subgenre:"Folk horror",weight:"Heavy",
   similarTo:"The Shining and Oddity",
   when:"for a dark evening alone when you want to be properly unsettled — not before bed",
+  pair:"a single malt whisky — the dread compounds nicely with it",
   rationale:"Damian McCarthy's Irish folk horror is all atmosphere and craft — a haunted inn, an unreliable novelist, and creeping dread that builds without gore. The Shining is the obvious reference point and Amelya already loves that; this is quieter and more folkloric, with Adam Scott doing something genuinely surprising.",
   details:"107 min · 2026 · Damian McCarthy",
   tags:["atmospheric","folk horror","Irish"],
@@ -200,6 +204,7 @@ const SEED=[
   genre:"Comedy",subgenre:"Game show",weight:"Trash",
   similarTo:"Taskmaster and Would I Lie to You",
   when:"for when you want to laugh without thinking — perfect weeknight snack-eating viewing",
+  pair:"a takeaway and your phone — you'll want to send someone the best clips immediately",
   rationale:"Genuinely clever improv game show where comedians play a new game every episode without knowing the rules — the chaos is the point. It is very American-comedy in energy so not Amelya's core habitat, but the absurdity and wit are real and it is excellent low-stakes viewing.",
   details:"8 seasons · 73 episodes · 12–64 min · 2019– · Sam Reich",
   tags:["absurd","funny","easy"],
@@ -211,6 +216,7 @@ const SEED=[
   genre:"Political",subgenre:"Political satire",weight:"Medium",
   similarTo:"Succession and The Death of Stalin",
   when:"for when you want to feel smarter than every world leader while drinking something dry",
+  pair:"a Negroni or a very cold, very dry white wine — nothing sweet, nothing soft",
   rationale:"From the Succession producers, Kate Winslet plays a delusional European autocrat unravelling in real time — it's the political wit and darkness Amelya loves done at full tilt, with Hugh Grant being genuinely unsettling. Zero pretension, all craft.",
   details:"6 episodes · 48–51 min · 2024 · Will Tracy",
   tags:["political","witty","dark"],
@@ -222,6 +228,7 @@ const SEED=[
   genre:"Drama",subgenre:"Psychological comedy-drama",weight:"Heavy",
   similarTo:"It's a Sin and Fleabag",
   when:"for a week when you have the emotional bandwidth — you will think about it for months",
+  pair:"a strong cup of tea and a blanket — you will need both, and probably a second cup",
   rationale:"Michaela Coel wrote, directed and starred in this unflinching, formally dazzling exploration of consent, identity and trauma in London — it has the political moral weight of Homage to Catalonia but in HBO form. Genuinely one of the best pieces of television ever made, and it will devastate you in the best possible way.",
   details:"12 episodes · 28–35 min · 2020 · Michaela Coel",
   tags:["devastating","political","London"],
@@ -233,6 +240,7 @@ const SEED=[
   score:9.4,scoreCaption:"perfect television, full stop",
   genre:"Comedy",subgenre:"Dark comedy-drama",weight:"Medium",
   when:"for a grey Sunday afternoon when you want to laugh and then suddenly cry on your sofa",
+  pair:"a glass of wine and someone to text immediately after every episode — you will need to debrief",
   rationale:"Phoebe Waller-Bridge's Fleabag is the closest thing to The Picture of Dorian Gray on television — all wit, edge, grief and transgression wrapped in a formally brilliant package. It's also very short, devastatingly good, and will make you want to immediately rewatch it.",
   details:"2 seasons · 12 episodes · ~25 min · 2016–2019 · Phoebe Waller-Bridge",
   tags:["witty","grief","London"],
@@ -244,6 +252,7 @@ const SEED=[
   score:8.2,scoreCaption:"witty dread, perfectly crafted",
   genre:"Comedy",subgenre:"Horror comedy",weight:"Medium",
   when:"for a Friday night in with something cold and fizzy",
+  pair:"a spritz or a cold cider and ideally a friend on the sofa — it's better shared",
   rationale:"Katie Dippold's Parks & Rec wit meets genuine supernatural dread directed by Hiro Murai — exactly the crafted eccentric ensemble that rewards Amelya's taste for edge and originality. The dry New England horror-comedy has strong BEEF energy without a whiff of pretension.",
   details:"10 episodes · 36–42 min · 2026 · Katie Dippold",
   tags:["witty","dark","eccentric"],
@@ -253,10 +262,10 @@ const SEED=[
 let items=[],tab='todo';
 
 async function load(){
-  try{const r=await window.storage.get('al-v11');if(r&&r.value){items=JSON.parse(r.value);}else{items=[...SEED];await save();}}catch(e){items=[...SEED];}
+  try{const r=await window.storage.get('al-v12');if(r&&r.value){items=JSON.parse(r.value);}else{items=[...SEED];await save();}}catch(e){items=[...SEED];}
   render();syncFilters();
 }
-async function save(){try{await window.storage.set('al-v11',JSON.stringify(items));}catch(e){}}
+async function save(){try{await window.storage.set('al-v12',JSON.stringify(items));}catch(e){}}
 
 function gc(g){return GENRE_CLASS[(g||'').toLowerCase()]||'gc-default';}
 function gp(g){return GENRE_PILL[(g||'').toLowerCase()]||'pg-default';}
@@ -314,6 +323,7 @@ function cardHtml(it){
       <div class="card-content">
         <div class="ctitle">${x(it.title)}</div>
         ${it.when?`<div class="when">✦ ${x(it.when)}</div>`:''}
+        ${it.pair?`<div class="pair">&#127860; ${x(it.pair)}</div>`:''}
         <div class="pill-row">
           ${genreLabel?`<span class="pill ${gp(it.genre)}">${x(genreLabel)}</span>`:''}
           ${it.weight?`<span class="pill ${wp(it.weight)}">${x(it.weight)}</span>`:''}
