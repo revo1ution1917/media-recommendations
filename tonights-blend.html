@@ -567,7 +567,7 @@ async function callClaude(userMsg, systemMsg, useSearch = false){
   if(!key){ showApiKeyModal(); return null; }
 
   const body = {
-    model: 'claude-sonnet-4-20250514',
+    model: 'claude-sonnet-4-5',
     max_tokens: 4096,
     system: systemMsg,
     messages: [{ role: 'user', content: userMsg }]
