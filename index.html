@@ -307,13 +307,28 @@ const SEED=[
   streaming:{netflix:false,prime:true,apple:true,stremio:true,note:"Prime & Apple TV+"}
 }];
 
-let items=[],tab='todo';
+let items=[],tab='todo',deletedIds=new Set();
 
 async function load(){
-  try{const r=await window.storage.get('al-v20');if(r&&r.value){items=JSON.parse(r.value);}else{items=[...SEED];await save();}}catch(e){items=[...SEED];}
+  try{
+    const r=await window.storage.get('al-v20');
+    if(r&&r.value){
+      const data=JSON.parse(r.value);
+      const stored=Array.isArray(data)?data:(data.items||[]);
+      const deleted=Array.isArray(data)?[]:(data.deletedIds||[]);
+      deletedIds=new Set(deleted);
+      const storedMap=new Map(stored.map(i=>[i.id,i]));
+      items=SEED
+        .filter(i=>!deletedIds.has(i.id))
+        .map(i=>{const s=storedMap.get(i.id);return s?{...i,done:s.done}:i;});
+      await save();
+    }else{items=[...SEED];await save();}
+  }catch(e){items=[...SEED];deletedIds=new Set();}
   render();syncFilters();
 }
-async function save(){try{await window.storage.set('al-v20',JSON.stringify(items));}catch(e){}}
+async function save(){
+  try{await window.storage.set('al-v20',JSON.stringify({items:items.map(i=>({id:i.id,done:i.done})),deletedIds:[...deletedIds]}));}catch(e){}
+}
 
 function gc(g){return GENRE_CLASS[(g||'').toLowerCase()]||'gc-default';}
 function gp(g){return GENRE_PILL[(g||'').toLowerCase()]||'pg-default';}
@@ -423,7 +438,7 @@ function syncFilters(){
 function switchTab(t,el){tab=t;document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));el.classList.add('active');render();}
 
 async function toggleDone(id){const idx=items.findIndex(i=>i.id===id);if(idx>-1){items[idx].done=!items[idx].done;await save();render();}}
-async function del(id){if(!confirm('Remove this item?'))return;items=items.filter(i=>i.id!==id);await save();syncFilters();render();}
+async function del(id){if(!confirm('Remove this item?'))return;deletedIds.add(id);items=items.filter(i=>i.id!==id);await save();syncFilters();render();}
 
 function toggleMood(){
   const p=document.getElementById('mood-panel'),on=p.style.display!=='none';
