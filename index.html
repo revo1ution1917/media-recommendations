@@ -163,6 +163,18 @@ const WEIGHT_PILL={light:'pw-light',medium:'pw-medium',heavy:'pw-heavy',trash:'p
 
 const SEED=[
 {
+  id:"half-man-1",title:"Half Man",type:"TV",recBy:"Tuvaal",notes:"",addedAt:1780870000000,done:false,
+  score:8.5,scoreCaption:"raw, repressed, quietly devastating",
+  genre:"Drama",subgenre:"Queer drama",weight:"Heavy",
+  when:"for an evening when you're ready to sit with something difficult — this one takes up residence in your chest",
+  pair:"a glass of Rioja and the good sofa cushions — you'll want to be properly settled in",
+  rationale:"Richard Gadd's follow-up to Baby Reindeer traces two men across thirty years of friendship, desire, and repression — formally ambitious, emotionally brutal, and anchored by a Jamie Bell performance that genuinely shocked critics. It sits squarely in Amelya's territory: queer themes handled with craft and without sentimentality, a formally daring structure, and a polarising ending that earns its controversy.",
+  details:"6 episodes · ~45 min · 2026 · Richard Gadd",
+  similarTo:"Baby Reindeer and It's a Sin",
+  tags:["queer","repression","craft"],
+  streaming:{netflix:false,prime:false,apple:false,stremio:true,note:"BBC iPlayer (free) or Stremio"}
+},
+{
   id:"the-bear-1",title:"The Bear",type:"TV",recBy:"Amelya's List",notes:"",addedAt:1780865820000,done:false,
   score:8.4,scoreCaption:"tense, devastating, impossible to stop",
   genre:"Drama",subgenre:"Kitchen drama",weight:"Heavy",
@@ -298,10 +310,10 @@ const SEED=[
 let items=[],tab='todo';
 
 async function load(){
-  try{const r=await window.storage.get('al-v19');if(r&&r.value){items=JSON.parse(r.value);}else{items=[...SEED];await save();}}catch(e){items=[...SEED];}
+  try{const r=await window.storage.get('al-v20');if(r&&r.value){items=JSON.parse(r.value);}else{items=[...SEED];await save();}}catch(e){items=[...SEED];}
   render();syncFilters();
 }
-async function save(){try{await window.storage.set('al-v19',JSON.stringify(items));}catch(e){}}
+async function save(){try{await window.storage.set('al-v20',JSON.stringify(items));}catch(e){}}
 
 function gc(g){return GENRE_CLASS[(g||'').toLowerCase()]||'gc-default';}
 function gp(g){return GENRE_PILL[(g||'').toLowerCase()]||'pg-default';}
