@@ -42,7 +42,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f0ede8;color:#1a
 
 /* ── Profile cards ── */
 .profiles-row{display:flex;gap:8px;flex-wrap:wrap}
-.profile-card{border:2px solid rgba(0,0,0,0.08);border-radius:12px;padding:10px 12px;background:#fff;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:10px;box-shadow:0 1px 4px rgba(0,0,0,0.07)}
+.profile-card{border:2px solid rgba(0,0,0,0.08);border-radius:12px;padding:10px 12px;background:#fff;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:10px;box-shadow:0 1px 4px rgba(0,0,0,0.07);position:relative}
 .profile-card:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,0.1)}
 .profile-card.selected{border-color:#7c3aed;background:#faf5ff}
 .p-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#fff;flex-shrink:0}
@@ -50,8 +50,17 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f0ede8;color:#1a
 .p-type{font-size:10px;color:#bbb;margin-top:1px}
 .p-tick{width:18px;height:18px;border-radius:50%;background:#7c3aed;color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;opacity:0;transition:opacity 0.15s}
 .profile-card.selected .p-tick{opacity:1}
+.p-actions{position:absolute;top:4px;right:4px;display:flex;gap:2px;opacity:0;transition:opacity 0.15s}
+.profile-card:hover .p-actions{opacity:1}
+.p-act-btn{width:22px;height:22px;border-radius:6px;border:none;background:rgba(0,0,0,0.06);color:#888;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;transition:all 0.1s;padding:0}
+.p-act-btn:hover{background:rgba(0,0,0,0.12);color:#1a1714}
+.p-act-btn.del:hover{background:#fdd4d4;color:#7a1010}
 .add-person-btn{border:2px dashed rgba(0,0,0,0.12);border-radius:12px;padding:10px 14px;background:transparent;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:7px;color:#bbb;font-size:13px;font-family:inherit}
 .add-person-btn:hover{border-color:#7c3aed;color:#7c3aed;background:#faf5ff}
+/* Color swatches in edit modal */
+.color-swatches{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.swatch{width:26px;height:26px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:border-color 0.12s;flex-shrink:0}
+.swatch.active{border-color:#1a1714}
 
 /* ── Vibe card ── */
 .vibe-card{background:#fff;border:1px solid rgba(0,0,0,0.07);border-radius:12px;padding:16px}
@@ -316,6 +325,28 @@ textarea.modal-input{resize:none}
   </div>
 </div>
 
+<!-- Edit profile modal -->
+<div class="overlay" id="edit-profile-modal">
+  <div class="modal">
+    <div class="modal-hd">
+      <div class="modal-title" id="edit-modal-title">Edit profile</div>
+      <button class="modal-close" onclick="closeModal('edit-profile-modal')">✕</button>
+    </div>
+    <div class="modal-sub">Changes save instantly and feed into every recommendation.</div>
+    <div class="modal-q">Name</div>
+    <input class="modal-input" id="ep-name" type="text" placeholder="e.g. Tuvaal">
+    <div class="modal-q">Colour</div>
+    <div class="color-swatches" id="ep-swatches"></div>
+    <div class="modal-q">Taste profile</div>
+    <textarea class="modal-input" id="ep-desc" rows="10" placeholder="Describe their taste — films they love, genres they hate, any constraints like no subtitles. The more detail, the better the picks."></textarea>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="ep-delete-btn" onclick="confirmDeleteProfile()">🗑 Delete</button>
+      <button class="btn" onclick="closeModal('edit-profile-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveEditedProfile()">Save</button>
+    </div>
+  </div>
+</div>
+
 <!-- Note modal -->
 <div class="overlay" id="note-modal">
   <div class="modal">
@@ -411,13 +442,23 @@ STREAMING: Netflix UK, Amazon Prime UK, Stremio/Torrentio.`
 let selectedProfiles = new Set(['amelya']);
 let vibeState        = {mood:null, length:null, energy:null, subtitles:null};
 let feedbackHistory  = [];
-let extraProfiles    = {};   // saved via Quick Match or upload
 let currentNoteTitle = '';
+let editingProfileId = null;
 
 try { feedbackHistory = JSON.parse(localStorage.getItem('tb-feedback-v1') || '[]'); } catch(e){}
-try { extraProfiles   = JSON.parse(localStorage.getItem('tb-profiles-v1') || '{}');  } catch(e){}
 
-function allProfiles(){ return {...CORE_PROFILES, ...extraProfiles}; }
+// All profiles live in localStorage — seeded from CORE_PROFILES on first load
+function loadProfiles(){
+  try {
+    const stored = localStorage.getItem('tb-profiles-v2');
+    if(stored) return JSON.parse(stored);
+  } catch(e){}
+  // First load: seed from CORE_PROFILES
+  saveProfiles(CORE_PROFILES);
+  return {...CORE_PROFILES};
+}
+function saveProfiles(p){ localStorage.setItem('tb-profiles-v2', JSON.stringify(p)); }
+function allProfiles(){ return loadProfiles(); }
 
 // ─────────────────────────────────────────────────────────────────
 //  API KEY
@@ -465,6 +506,10 @@ function renderProfiles(){
 function profileCard(p){
   const sel = selectedProfiles.has(p.id);
   return `<div class="profile-card${sel?' selected':''}" id="pc-${p.id}" onclick="toggleProfile('${p.id}')">
+    <div class="p-actions" onclick="event.stopPropagation()">
+      <button class="p-act-btn" title="Edit" onclick="openEditProfile('${p.id}')">✎</button>
+      <button class="p-act-btn del" title="Delete" onclick="deleteProfile('${p.id}')">✕</button>
+    </div>
     <div class="p-avatar" style="background:${p.color}">${x(p.initial)}</div>
     <div>
       <div class="p-name">${x(p.name)}</div>
@@ -480,6 +525,70 @@ function toggleProfile(id){
   else selectedProfiles.add(id);
   const card = document.getElementById('pc-'+id);
   if(card) card.classList.toggle('selected', selectedProfiles.has(id));
+}
+
+// ── EDIT / DELETE PROFILES ──
+const SWATCH_COLORS = ['#7c3aed','#0d9488','#d97706','#db2777','#2563eb','#dc2626','#059669','#7c3aed','#9333ea','#0891b2','#65a30d','#ea580c','#64748b','#374151'];
+
+function openEditProfile(id){
+  const profiles = allProfiles();
+  const p = profiles[id];
+  if(!p) return;
+  editingProfileId = id;
+  document.getElementById('edit-modal-title').textContent = `Edit — ${p.name}`;
+  document.getElementById('ep-name').value = p.name || '';
+  document.getElementById('ep-desc').value = p.description || '';
+  // Render swatches
+  const sw = document.getElementById('ep-swatches');
+  sw.innerHTML = SWATCH_COLORS.map(c =>
+    `<div class="swatch${c===p.color?' active':''}" style="background:${c}" data-color="${c}" onclick="selectSwatch(this)"></div>`
+  ).join('');
+  openModal('edit-profile-modal');
+}
+
+function selectSwatch(el){
+  document.querySelectorAll('#ep-swatches .swatch').forEach(s => s.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function saveEditedProfile(){
+  if(!editingProfileId) return;
+  const profiles = allProfiles();
+  const p = profiles[editingProfileId];
+  if(!p) return;
+  const name = document.getElementById('ep-name').value.trim();
+  const desc = document.getElementById('ep-desc').value.trim();
+  const activeSwatch = document.querySelector('#ep-swatches .swatch.active');
+  const color = activeSwatch ? activeSwatch.dataset.color : p.color;
+  if(!name){ alert('Please enter a name.'); return; }
+  profiles[editingProfileId] = {
+    ...p,
+    name, description: desc, color,
+    initial: name[0].toUpperCase(),
+    profileType: desc.length > 100 ? 'Full profile' : 'Quick profile'
+  };
+  saveProfiles(profiles);
+  closeModal('edit-profile-modal');
+  renderProfiles();
+}
+
+function confirmDeleteProfile(){
+  if(!editingProfileId) return;
+  const profiles = allProfiles();
+  const p = profiles[editingProfileId];
+  if(!confirm(`Delete ${p?.name || 'this profile'}? This can't be undone.`)) return;
+  deleteProfile(editingProfileId, true);
+}
+
+function deleteProfile(id, skipConfirm = false){
+  const profiles = allProfiles();
+  const p = profiles[id];
+  if(!skipConfirm && !confirm(`Delete ${p?.name || 'this profile'}?`)) return;
+  delete profiles[id];
+  saveProfiles(profiles);
+  selectedProfiles.delete(id);
+  closeModal('edit-profile-modal');
+  renderProfiles();
 }
 
 // ─────────────────────────────────────────────────────────────────
@@ -508,12 +617,13 @@ function saveQuickMatch(persist){
   const profile = {
     id, name, initial: name[0].toUpperCase(),
     color: '#6b7280',
-    profileType: persist ? 'Saved' : 'Tonight only',
+    profileType: 'Quick profile',
     description: `${name} — quick profile.\n\nLoves: ${loves||'not specified'}\nAvoids: ${hates||'not specified'}\nSubtitles: ${subOk===true?'yes, fine':subOk===false?'no thanks':'not specified'}\nExtra: ${extra||'none'}`
   };
 
-  extraProfiles[id] = profile;
-  if(persist) localStorage.setItem('tb-profiles-v1', JSON.stringify(extraProfiles));
+  const profiles = allProfiles();
+  profiles[id] = profile;
+  if(persist) saveProfiles(profiles);
   selectedProfiles.add(id);
   renderProfiles();
   closeModal('qm-modal');
@@ -548,8 +658,9 @@ async function handleFileUpload(input){
       profileType: 'Uploaded',
       description: `${name} — uploaded profile.\n\n${resp}`
     };
-    extraProfiles[id] = profile;
-    localStorage.setItem('tb-profiles-v1', JSON.stringify(extraProfiles));
+    const profiles = allProfiles();
+    profiles[id] = profile;
+    saveProfiles(profiles);
     selectedProfiles.add(id);
     renderProfiles();
     status.textContent = `✓ Profile created for ${name}`;
